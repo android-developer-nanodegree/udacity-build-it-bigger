@@ -1,0 +1,7 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_builditbigger_settings"
+    android:name="com.sielski.marcin.builditbigger.settings.BuildItBiggerSettingsFragment"
+    tools:layout="@layout/fragment_builditbigger_settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>

@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.cloud.tools.endpoints-framework-client'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.google.cloud.tools:endpoints-framework-gradle-plugin:1.0.3'
+    }
+}
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId 'com.sielski.marcin.builditbigger'
+        minSdkVersion 23
+        targetSdkVersion 27
+        versionCode 1
+        versionName '1.0'
+        multiDexEnabled true
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions('mode')
+
+    productFlavors {
+        free {
+            applicationIdSuffix 'free'
+            dimension 'mode'
+        }
+        paid {
+            applicationIdSuffix 'paid'
+            dimension 'mode'
+        }
+    }
+}
+
+def androidSupportVersion = '27.1.0'
+def apiClientVersion = '1.23.0'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    endpointsServer project(path: ':backend', configuration: 'endpoints')
+    implementation "com.android.support:appcompat-v7:${androidSupportVersion}"
+    implementation "com.android.support:support-v4:${androidSupportVersion}"
+    implementation "com.android.support:design:${androidSupportVersion}"
+    implementation 'com.google.android.gms:play-services-ads:12.0.0'
+    implementation "com.google.api-client:google-api-client:${apiClientVersion}"
+    implementation "com.google.http-client:google-http-client-android:${apiClientVersion}"
+    implementation 'com.google.code.findbugs:jsr305:3.0.1'
+
+    implementation project(':jokesactivity')
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation 'junit:junit:4.12'
+}
+
+task startJokesEndpoint {
+    dependsOn ':backend:appengineStart'
+}
+
+android.productFlavors.all { theProductFlavor ->
+
+    def buildVariant = "${theProductFlavor.name.capitalize()}Debug"
+
+    task("stop${buildVariant}JokesEndpoint") {
+        dependsOn ':backend:appengineStop'
+        mustRunAfter "execute${buildVariant}TestRun"
+    }
+
+    task("execute${buildVariant}TestRun") {
+        dependsOn "connected${buildVariant}AndroidTest"
+        mustRunAfter 'startJokesEndpoint'
+    }
+
+    task("execute${buildVariant}Tests") {
+        dependsOn 'startJokesEndpoint'
+        dependsOn "stop${buildVariant}JokesEndpoint"
+        dependsOn "execute${buildVariant}TestRun"
+    }
+
+}
+

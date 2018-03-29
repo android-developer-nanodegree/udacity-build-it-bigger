@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Build it Bigger</string>
+    <string name="instructions">Press the button for a delicious joke!</string>
+    <string name="button_text">Tell Joke</string>
+    <string name="action_settings">Settings</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="title_builditbigger_settings">Build It Bigger Settings</string>
+    <string name="title_ip_address">Jokes Service IP Address</string>
+    <string name="title_port">Jokes Service Port</string>
+    <string name="key_ip_address">jokes_service_ip_address</string>
+    <string name="snackbar_ip_address">Please enter IP Address.</string>
+    <string name="default_ip_address">10.0.2.2</string>
+    <string name="key_port">jokes_service_port</string>
+    <string name="snackbar_port">Please enter port number.</string>
+    <string name="default_port">8080</string>
+    <string name="snackbar_network_unavailable">Please check your network connection.</string>
+    <string name="snackbar_connection_failed">Failed to connect to</string>
+</resources>

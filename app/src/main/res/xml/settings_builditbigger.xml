@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="@string/title_ip_address"
+        android:key="@string/key_ip_address"
+        android:digits="0123456789."
+        android:inputType="numberDecimal"/>
+    <EditTextPreference
+        android:title="@string/title_port"
+        android:key="@string/key_port"
+        android:digits="0123456789"
+        android:inputType="numberDecimal"/>
+</PreferenceScreen>
